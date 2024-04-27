@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>76687515824-sl0gs4aegc8b86jratdal22tk4ijjc07.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.76687515824-sl0gs4aegc8b86jratdal22tk4ijjc07</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCS7Yzgar40vNS4xmGqH-XbSqYTYfZE7LY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>76687515824</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>Ind.PhotoEditor</string>
+	<key>PROJECT_ID</key>
+	<string>photoeditor-dd4a6</string>
+	<key>STORAGE_BUCKET</key>
+	<string>photoeditor-dd4a6.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:76687515824:ios:dc1b0eea6a150941611b75</string>
+</dict>
+</plist>
