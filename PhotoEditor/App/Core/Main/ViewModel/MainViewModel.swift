@@ -91,15 +91,6 @@ final class MainViewModel {
         let renderer = UIGraphicsImageRenderer(size: processedImage.size)
         let img = renderer.image { ctx in
             processedImage.draw(in: CGRect(origin: .zero, size: processedImage.size))
-            let format = UIGraphicsImageRendererFormat.default()
-            format.scale = UIScreen.main.scale
-            let bounds = canvas.bounds
-            let renderer = UIGraphicsImageRenderer(bounds: bounds, format: format)
-            let image = renderer.image { (context) in
-                canvas.drawHierarchy(in: bounds, afterScreenUpdates: true)
-            }
-            image.draw(in: CGRect(origin: .zero, size: processedImage.size))
-
             for box in textBoxes {
                 let paragraphStyle = NSMutableParagraphStyle()
                 paragraphStyle.alignment = .center
@@ -111,8 +102,21 @@ final class MainViewModel {
                 ]
                     
                 let string = NSAttributedString(string: box.text, attributes: attrs)
-                string.draw(with: CGRect(x: box.lastOffset.width, y: box.lastOffset.height, width: 200, height: 200), options: .usesLineFragmentOrigin, context: nil)
+                let rect = CGRect(x: box.lastOffset.width, y: box.lastOffset.height, width: 200, height: 200)
+                ctx.cgContext.saveGState()
+                ctx.cgContext.translateBy(x: rect.origin.x, y: rect.origin.y)
+                string.draw(with: CGRect(origin: .zero, size: rect.size), options: .usesLineFragmentOrigin, context: nil)
+                ctx.cgContext.restoreGState()
             }
+            
+            let format = UIGraphicsImageRendererFormat.default()
+            format.scale = UIScreen.main.scale
+            let bounds = canvas.bounds
+            let renderer = UIGraphicsImageRenderer(bounds: bounds, format: format)
+            let image = renderer.image { (context) in
+                canvas.drawHierarchy(in: bounds, afterScreenUpdates: true)
+            }
+            image.draw(in: CGRect(origin: .zero, size: processedImage.size))
         }
             
         UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil)

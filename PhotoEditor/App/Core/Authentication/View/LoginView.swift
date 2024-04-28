@@ -58,6 +58,8 @@ struct LoginView: View {
                         do {
                             try await viewModel.singInGoogle()
                         } catch {
+                            viewModel.isShowAlert = true
+                            viewModel.message = error.localizedDescription
                             print(error.localizedDescription)
                         }
                     }

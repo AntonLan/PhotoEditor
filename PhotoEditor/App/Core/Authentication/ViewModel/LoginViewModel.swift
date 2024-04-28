@@ -27,7 +27,12 @@ final class LoginViewModel {
     
     @MainActor
     func login() async throws {
-        try await authService.login(withEmail: email, password: password)
+        do {
+            try await authService.login(withEmail: email, password: password)
+        } catch {
+            isShowAlert = true
+            message = error.localizedDescription
+        }
     }
     
     
@@ -37,12 +42,10 @@ final class LoginViewModel {
         let tokens = try await helper.singIn()
         try await authService.singInWithGoogle(tokkens: tokens)
     }
-    
-    @MainActor
+
     func resetPassword() async throws {
         try await authService.resetPassword(withEmail: email)
     }
-    
 }
 
 

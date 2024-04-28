@@ -23,10 +23,11 @@ struct ForgotPasswordView: View {
             }
             
             Button {
-                Task { try await loginVm.resetPassword() }
-                loginVm.email = ""
-                loginVm.isShowAlert = true
-                loginVm.message = "Вам отправленна ссылка для сброса пароля"
+                Task { 
+                    loginVm.isShowAlert = true
+                    loginVm.message = "Вам отправлена ссылка для восстановления пароля"
+                    try await loginVm.resetPassword()
+                }
                 dismiss()
             } label: {
                 Text("Reset password")

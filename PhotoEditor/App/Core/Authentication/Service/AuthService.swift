@@ -74,18 +74,16 @@ class AuthService {
     @MainActor
     func resetPassword(withEmail email: String) async throws {
         do {
-            let auth = Auth.auth()
-            
-            try await auth.sendPasswordReset(withEmail: email)
+            try await Auth.auth().sendPasswordReset(withEmail: email)
         } catch {
             print("Debug: failed to reset \(error.localizedDescription)")
         }
     }
     
     func singOut() {
-        try? Auth.auth().signOut() // sign out on backend
-        self.userSession = nil // remove session localy and update routing
-        userService.reset() // set current user to nil
+        try? Auth.auth().signOut()
+        self.userSession = nil
+        userService.reset()
     }
     
     
