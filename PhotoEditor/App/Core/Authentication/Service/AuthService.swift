@@ -22,6 +22,7 @@ class AuthService {
     
     @Injected(\.userService) private var userService
     
+    
     init() {
         self.userSession = Auth.auth().currentUser
     }

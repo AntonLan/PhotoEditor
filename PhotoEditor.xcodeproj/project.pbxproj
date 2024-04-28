@@ -24,7 +24,6 @@
 		117415392BDD524900AFED36 /* Container.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117415382BDD524900AFED36 /* Container.swift */; };
 		1174153D2BDD52CA00AFED36 /* Utilites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1174153C2BDD52CA00AFED36 /* Utilites.swift */; };
 		1174153F2BDD52F700AFED36 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1174153E2BDD52F700AFED36 /* UserService.swift */; };
-		117415412BDD533C00AFED36 /* ImageUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117415402BDD533C00AFED36 /* ImageUploader.swift */; };
 		117415442BDD537A00AFED36 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117415432BDD537A00AFED36 /* User.swift */; };
 		117415472BDD53E900AFED36 /* TextFieldModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117415462BDD53E900AFED36 /* TextFieldModifier.swift */; };
 		1174154A2BDD546700AFED36 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117415492BDD546700AFED36 /* MainView.swift */; };
@@ -52,7 +51,6 @@
 		117415382BDD524900AFED36 /* Container.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Container.swift; sourceTree = "<group>"; };
 		1174153C2BDD52CA00AFED36 /* Utilites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilites.swift; sourceTree = "<group>"; };
 		1174153E2BDD52F700AFED36 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
-		117415402BDD533C00AFED36 /* ImageUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploader.swift; sourceTree = "<group>"; };
 		117415432BDD537A00AFED36 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		117415462BDD53E900AFED36 /* TextFieldModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldModifier.swift; sourceTree = "<group>"; };
 		117415492BDD546700AFED36 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -190,7 +188,6 @@
 			isa = PBXGroup;
 			children = (
 				1174153E2BDD52F700AFED36 /* UserService.swift */,
-				117415402BDD533C00AFED36 /* ImageUploader.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -382,7 +379,6 @@
 				11D6D92E2BDE7CEC002538D5 /* DrawingScreenView.swift in Sources */,
 				1174152F2BDD51A700AFED36 /* RegistrationViewModel.swift in Sources */,
 				1174153D2BDD52CA00AFED36 /* Utilites.swift in Sources */,
-				117415412BDD533C00AFED36 /* ImageUploader.swift in Sources */,
 				11D6D9322BDE8D7C002538D5 /* ImageSaver.swift in Sources */,
 				11D6D9342BDEA775002538D5 /* CanvasView.swift in Sources */,
 				11D6D9302BDE8D5E002538D5 /* ImagePicker.swift in Sources */,
@@ -535,6 +531,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PhotoEditor/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Save photo in library";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -565,6 +562,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PhotoEditor/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Save photo in library";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

@@ -40,8 +40,22 @@ struct MainView: View {
                 Color.black.opacity(0.75)
                     .ignoresSafeArea()
                 
+                TextField("Type Here", text: $viewModel.textBoxes[viewModel.currentIndex].text)
+                    .font(.system(size: 35))
+                    .colorScheme(.dark)
+                    .foregroundStyle(viewModel.textBoxes[viewModel.currentIndex].textColor)
+                    .padding()
+                
                 HStack {
-                    Button(action: {}, label: {
+                    Button(action: {
+                        viewModel.toolPicker.setVisible(true, forFirstResponder:
+                                                            viewModel.canvas)
+                        viewModel.canvas.becomeFirstResponder ()
+                        
+                        withAnimation {
+                            viewModel.addNewBox = false
+                        }
+                    }, label: {
                         Text ("Add")
                             .fontWeight(.heavy)
                             .foregroundColor(.white)
@@ -59,6 +73,10 @@ struct MainView: View {
                             .padding()
                     })
                 }
+                .overlay (
+                    ColorPicker("", selection: $viewModel.textBoxes[viewModel.currentIndex].textColor)
+                    .labelsHidden()
+                )
                 .frame(maxHeight: .infinity, alignment: .top)
             }
         }
@@ -68,7 +86,6 @@ struct MainView: View {
             ImagePicker(image: $viewModel.inputImage)
         }
         .confirmationDialog("Select a filter", isPresented: $viewModel.showingFilterSheet) {
-            //dialog here
             Button("Crystallize") { viewModel.setFilter(CIFilter.crystallize()) }
             Button("Edges") { viewModel.setFilter(CIFilter.edges()) }
             Button("Gaussian Blur") { viewModel.setFilter(CIFilter.gaussianBlur()) }
@@ -78,6 +95,7 @@ struct MainView: View {
             Button("Vignette") { viewModel.setFilter(CIFilter.vignette()) }
             Button("Cancel", role: .cancel) { }
         }
+        .tint(.black)
     }
 }
 

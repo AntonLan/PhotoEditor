@@ -40,8 +40,8 @@ struct CanvasView: UIViewRepresentable {
     
     func updateUIView(_ uiView: PKCanvasView, context: Context) {
         if let subView = uiView.subviews.first,
-                  let imageView = subView.viewWithTag(999) as? UIImageView {
-                   imageView.image = inputImage
-               }
+           let imageView = subView.viewWithTag(999) as? UIImageView {
+            imageView.image = inputImage
+        }
     }
 }

@@ -27,6 +27,8 @@ final class MainViewModel {
     var toolPicker = PKToolPicker()
     var textBoxes: [TextBox] = []
     var addNewBox = false
+    var currentIndex = 0
+    var rect: CGRect = .zero
     
     @ObservationIgnored
     let context = CIContext()
@@ -82,8 +84,24 @@ final class MainViewModel {
     }
     
     func cancelTextView() {
+        toolPicker.setVisible(true, forFirstResponder: canvas)
+        canvas.becomeFirstResponder()
+        
         withAnimation {
             addNewBox = false
+        }
+        
+        textBoxes.removeLast()
+    }
+    
+    func saveImage() {
+        UIGraphicsBeginImageContextWithOptions (rect.size, false, 1)
+        let generatedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        if let image = generatedImage{
+            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+            print ("success..." )
         }
     }
 }
