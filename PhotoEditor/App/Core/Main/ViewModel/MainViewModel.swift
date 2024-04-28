@@ -30,23 +30,14 @@ final class MainViewModel {
     var currentIndex = 0
     var rect: CGRect = .zero
     
+    var showAlert = false
+    var message = ""
+    
     @ObservationIgnored
     let context = CIContext()
     
-    
-    func save() {
-        guard let processedImage = processedImage else { return }
-        let imageSaver = ImageSaver()
-        
-        imageSaver.successHandler = {
-            print("Success!")
-        }
-        
-        imageSaver.errorHandler = {
-            print("Oops! \($0.localizedDescription)")
-        }
-        imageSaver.writeToPhotoAlbum(image: processedImage)
-    }
+    @ObservationIgnored
+    @Injected(\.authService) private var authService
     
     func loadImage() {
         guard let inputImage = inputImage else { return }
@@ -95,14 +86,48 @@ final class MainViewModel {
     }
     
     func saveImage() {
-        UIGraphicsBeginImageContextWithOptions (rect.size, false, 1)
-        let generatedImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
+        guard let processedImage = processedImage else { return }
         
-        if let image = generatedImage{
-            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-            print ("success..." )
+        let renderer = UIGraphicsImageRenderer(size: processedImage.size)
+        let img = renderer.image { ctx in
+            processedImage.draw(in: CGRect(origin: .zero, size: processedImage.size))
+            for box in textBoxes {
+                let paragraphStyle = NSMutableParagraphStyle()
+                paragraphStyle.alignment = .center
+                    
+                let attrs: [NSAttributedString.Key: Any] = [
+                    .font: UIFont.systemFont(ofSize: 30),
+                    .paragraphStyle: paragraphStyle,
+                    .foregroundColor: UIColor(box.textColor)
+                ]
+                    
+                let string = NSAttributedString(string: box.text, attributes: attrs)
+                let rect = CGRect(x: box.lastOffset.width, y: box.lastOffset.height, width: 200, height: 200)
+                ctx.cgContext.saveGState()
+                ctx.cgContext.translateBy(x: rect.origin.x, y: rect.origin.y)
+                string.draw(with: CGRect(origin: .zero, size: rect.size), options: .usesLineFragmentOrigin, context: nil)
+                ctx.cgContext.restoreGState()
+            }
+            
+            let format = UIGraphicsImageRendererFormat.default()
+            format.scale = UIScreen.main.scale
+            let bounds = canvas.bounds
+            let renderer = UIGraphicsImageRenderer(bounds: bounds, format: format)
+            let image = renderer.image { (context) in
+                canvas.drawHierarchy(in: bounds, afterScreenUpdates: true)
+            }
+            image.draw(in: CGRect(origin: .zero, size: processedImage.size))
         }
+            
+        UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil)
+        print("success...")
+        message = "Saved Successfully !!!"
+        showAlert.toggle()
+        cancel()
+    }
+    
+    func singOut() {
+        authService.singOut()
     }
 }
 

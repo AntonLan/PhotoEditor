@@ -42,14 +42,14 @@ struct DrawingScreenView: View {
                                 DragGesture().onChanged { value in
                                     let current = value.translation
                                     let lastOffset = box.lastOffset
-                                    let newTranslation = CGSize(width:
-                                                                    lastOffset.width + current.width, height:
-                                                                    lastOffset.height + current.height)
-                                    
-                                    viewModel.textBoxes[getIndex(textBox: box)].lastOffset = newTranslation
+                                    let newTranslation = CGSize(
+                                        width: lastOffset.width + current.width,
+                                        height: lastOffset.height + current.height
+                                    )
+                                    viewModel.textBoxes[getIndex(textBox: box)].offset = newTranslation
                                 }
                                     .onEnded({ value in
-                                        viewModel.textBoxes[getIndex(textBox: box)].lastOffset = value.translation
+                                        viewModel.textBoxes[getIndex(textBox: box)].lastOffset = viewModel.textBoxes[getIndex(textBox: box)].offset
                                     })
                             )
                         }

@@ -28,6 +28,7 @@
 		117415472BDD53E900AFED36 /* TextFieldModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117415462BDD53E900AFED36 /* TextFieldModifier.swift */; };
 		1174154A2BDD546700AFED36 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 117415492BDD546700AFED36 /* MainView.swift */; };
 		1174154F2BDD54D500AFED36 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1174154E2BDD54D500AFED36 /* GoogleService-Info.plist */; };
+		118623522BDEE32200DA0500 /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118623512BDEE32200DA0500 /* ForgotPasswordView.swift */; };
 		118855352BDD394C000D36FD /* PhotoEditorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118855342BDD394C000D36FD /* PhotoEditorApp.swift */; };
 		118855372BDD394C000D36FD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118855362BDD394C000D36FD /* ContentView.swift */; };
 		118855392BDD394E000D36FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 118855382BDD394E000D36FD /* Assets.xcassets */; };
@@ -35,7 +36,6 @@
 		11D6D92C2BDE7A57002538D5 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6D92B2BDE7A57002538D5 /* MainViewModel.swift */; };
 		11D6D92E2BDE7CEC002538D5 /* DrawingScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6D92D2BDE7CEC002538D5 /* DrawingScreenView.swift */; };
 		11D6D9302BDE8D5E002538D5 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6D92F2BDE8D5E002538D5 /* ImagePicker.swift */; };
-		11D6D9322BDE8D7C002538D5 /* ImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6D9312BDE8D7C002538D5 /* ImageSaver.swift */; };
 		11D6D9342BDEA775002538D5 /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6D9332BDEA775002538D5 /* CanvasView.swift */; };
 		11D6D9362BDEAA3B002538D5 /* TextBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D6D9352BDEAA3B002538D5 /* TextBox.swift */; };
 /* End PBXBuildFile section */
@@ -56,6 +56,7 @@
 		117415492BDD546700AFED36 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		1174154D2BDD54BC00AFED36 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1174154E2BDD54D500AFED36 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		118623512BDEE32200DA0500 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		118855312BDD394C000D36FD /* PhotoEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		118855342BDD394C000D36FD /* PhotoEditorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditorApp.swift; sourceTree = "<group>"; };
 		118855362BDD394C000D36FD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -64,7 +65,6 @@
 		11D6D92B2BDE7A57002538D5 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		11D6D92D2BDE7CEC002538D5 /* DrawingScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingScreenView.swift; sourceTree = "<group>"; };
 		11D6D92F2BDE8D5E002538D5 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
-		11D6D9312BDE8D7C002538D5 /* ImageSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSaver.swift; sourceTree = "<group>"; };
 		11D6D9332BDEA775002538D5 /* CanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
 		11D6D9352BDEAA3B002538D5 /* TextBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBox.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -164,6 +164,7 @@
 			children = (
 				1174152A2BDD514F00AFED36 /* LoginView.swift */,
 				1174152C2BDD517B00AFED36 /* RegistrationView.swift */,
+				118623512BDEE32200DA0500 /* ForgotPasswordView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -198,7 +199,6 @@
 				117415452BDD53CE00AFED36 /* ViewModifiers */,
 				1174153C2BDD52CA00AFED36 /* Utilites.swift */,
 				11D6D92F2BDE8D5E002538D5 /* ImagePicker.swift */,
-				11D6D9312BDE8D7C002538D5 /* ImageSaver.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -374,12 +374,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				117415292BDD512200AFED36 /* SingINGoogleHelper.swift in Sources */,
+				118623522BDEE32200DA0500 /* ForgotPasswordView.swift in Sources */,
 				117415272BDD50E300AFED36 /* AuthService.swift in Sources */,
 				118855372BDD394C000D36FD /* ContentView.swift in Sources */,
 				11D6D92E2BDE7CEC002538D5 /* DrawingScreenView.swift in Sources */,
 				1174152F2BDD51A700AFED36 /* RegistrationViewModel.swift in Sources */,
 				1174153D2BDD52CA00AFED36 /* Utilites.swift in Sources */,
-				11D6D9322BDE8D7C002538D5 /* ImageSaver.swift in Sources */,
 				11D6D9342BDEA775002538D5 /* CanvasView.swift in Sources */,
 				11D6D9302BDE8D5E002538D5 /* ImagePicker.swift in Sources */,
 				117415442BDD537A00AFED36 /* User.swift in Sources */,

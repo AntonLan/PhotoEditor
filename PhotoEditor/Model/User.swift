@@ -9,7 +9,5 @@ import Foundation
 
 struct User: Identifiable, Codable, Hashable {
     let id: String
-    let fullName: String
     let email: String
-    let userName: String
 }
