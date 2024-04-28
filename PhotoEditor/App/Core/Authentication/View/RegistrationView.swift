@@ -9,30 +9,53 @@ import SwiftUI
 
 struct RegistrationView: View {
     @State var viewModel = RegistrationViewModel()
+    @Environment(\.loginVm) private var loginVm: LoginViewModel
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
         VStack {
             Spacer()
             
-            VStack {
-                TextField("Enter your email", text: $viewModel.email)
-                    .autocapitalization(.none)
-                    .modifier(TextFieldModifier())
+            VStack(alignment: .leading, spacing: 10) {
+                
+                VStack() {
+                    TextField("Enter your email", text: $viewModel.email)
+                        .autocapitalization(.none)
+                        .modifier(TextFieldModifier())
+                    
+                    if !viewModel.isValidEmail() && !viewModel.email.isEmpty {
+                        Text("Некоретный ввод почты")
+                            .font(.caption)
+                    }
+                }
                 
                 
-                SecureField("Enter your password", text: $viewModel.password)                      .modifier(TextFieldModifier())
+                VStack() {
+                    SecureField("Enter your password", text: $viewModel.password)                      .modifier(TextFieldModifier())
+                    
+                    if !viewModel.isValidPassword() && !viewModel.password.isEmpty {
+                        Text("Некоретный ввод пароля")
+                            .font(.caption)
+                    }
+                }
                 
-                TextField("Enter your full name", text: $viewModel.fullName)
-                    .modifier(TextFieldModifier())
-                
-                TextField("Enter your user name", text: $viewModel.userName)
-                    .autocapitalization(.none)
-                    .modifier(TextFieldModifier())
             }
             
             Button {
-                Task { try await viewModel.createUser() }
+                Task {
+                    let uniq = try await viewModel.checkUniqueEmail()
+                    if uniq {
+                        loginVm.isShowAlert = true
+                        loginVm.message = "Пользователь с такой почтой уже существует"
+                        return
+                    } else {
+                        try await viewModel.createUser()
+                        loginVm.isShowAlert = true
+                        loginVm.message = "Вам отправленна ссылка для подтверждения почты"
+                        dismiss()
+                    }
+                }
+                
             } label: {
                 Text("Sing Up")
                     .font(.subheadline)

@@ -10,11 +10,17 @@ import Observation
 import GoogleSignIn
 import GoogleSignInSwift
 import Factory
+import SwiftUI
 
 @Observable
 final class LoginViewModel {
     var email = ""
     var password = ""
+    
+    var isShowAlert = false
+    var message = ""
+    
+    var isShowFogotPassword = false
     
     @ObservationIgnored
     @Injected(\.authService) private var authService
@@ -32,4 +38,21 @@ final class LoginViewModel {
         try await authService.singInWithGoogle(tokkens: tokens)
     }
     
+    @MainActor
+    func resetPassword() async throws {
+        try await authService.resetPassword(withEmail: email)
+    }
+    
+}
+
+
+struct LoginVmKey: EnvironmentKey {
+    static var defaultValue: LoginViewModel = LoginViewModel()
+}
+
+extension EnvironmentValues {
+    var loginVm: LoginViewModel {
+        get { self[LoginVmKey.self] }
+        set { self[LoginVmKey.self] = newValue }
+    }
 }

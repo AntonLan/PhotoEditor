@@ -12,8 +12,7 @@ import PhotosUI
 import Factory
 
 struct MainView: View {
-    
-    @Injected(\.authService) private var authService
+
     @State private var viewModel = MainViewModel()
     
     var body: some View {
@@ -31,6 +30,13 @@ struct MainView: View {
                                         viewModel.isShowingImagePicker = true
                                     }
                                 }
+                                    
+                                    ToolbarItem(placement: .topBarTrailing) {
+                                        Button("Sing Out") {
+                                            viewModel.singOut()
+                                        }
+                                }
+
                             }
                     }
                 }

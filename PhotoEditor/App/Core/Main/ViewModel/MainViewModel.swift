@@ -36,6 +36,9 @@ final class MainViewModel {
     @ObservationIgnored
     let context = CIContext()
     
+    @ObservationIgnored
+    @Injected(\.authService) private var authService
+    
     func loadImage() {
         guard let inputImage = inputImage else { return }
         
@@ -83,36 +86,44 @@ final class MainViewModel {
     }
     
     func saveImage() {
-        UIGraphicsBeginImageContextWithOptions (rect.size, false, 0)
-        canvas.drawHierarchy (in: CGRect(origin: .zero, size: rect.size), afterScreenUpdates:true)
+        guard let processedImage = processedImage else { return }
         
-        let SwiftUIView = ZStack{
-            ForEach(textBoxes) { [self] box in
-                Text(textBoxes[currentIndex].id == box.id && addNewBox ? "" : box.text)
-                    .font(.system(size: 30))
-                    .fontWeight(box.isBold ? .bold : .none)
-                    .foregroundColor(box.textColor)
-                    .offset(box.lastOffset)
+        let renderer = UIGraphicsImageRenderer(size: processedImage.size)
+        let img = renderer.image { ctx in
+            processedImage.draw(in: CGRect(origin: .zero, size: processedImage.size))
+            let format = UIGraphicsImageRendererFormat.default()
+            format.scale = UIScreen.main.scale
+            let bounds = canvas.bounds
+            let renderer = UIGraphicsImageRenderer(bounds: bounds, format: format)
+            let image = renderer.image { (context) in
+                canvas.drawHierarchy(in: bounds, afterScreenUpdates: true)
+            }
+            image.draw(in: CGRect(origin: .zero, size: processedImage.size))
+
+            for box in textBoxes {
+                let paragraphStyle = NSMutableParagraphStyle()
+                paragraphStyle.alignment = .center
+                    
+                let attrs: [NSAttributedString.Key: Any] = [
+                    .font: UIFont.systemFont(ofSize: 30),
+                    .paragraphStyle: paragraphStyle,
+                    .foregroundColor: UIColor(box.textColor)
+                ]
+                    
+                let string = NSAttributedString(string: box.text, attributes: attrs)
+                string.draw(with: CGRect(x: box.lastOffset.width, y: box.lastOffset.height, width: 200, height: 200), options: .usesLineFragmentOrigin, context: nil)
             }
         }
-        
-        let controller = UIHostingController (rootView: SwiftUIView).view!
-        controller.frame = rect
-        controller.drawHierarchy(in: CGRect(origin: .zero, size: rect.size), afterScreenUpdates: true)
-        
-        controller.backgroundColor = .clear
-        canvas.backgroundColor = .clear
-        
-        let generatedImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        if let image = generatedImage{
-            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-            print ("success..." )
-            message = "Saved Successfully !!!"
-            showAlert.toggle()
-        }
+            
+        UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil)
+        print("success...")
+        message = "Saved Successfully !!!"
+        showAlert.toggle()
         cancel()
+    }
+    
+    func singOut() {
+        authService.singOut()
     }
 }
 

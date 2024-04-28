@@ -26,8 +26,8 @@ struct LoginView: View {
                     SecureField("Enter your password", text: $viewModel.password)                      .modifier(TextFieldModifier())
                 }
                 
-                NavigationLink {
-                    Text("Forgot passsword")
+                Button {
+                    viewModel.isShowFogotPassword = true
                 } label: {
                     Text("Forgot passsword")
                         .font(.footnote)
@@ -52,6 +52,7 @@ struct LoginView: View {
                         .cornerRadius(8)
                 }
                     
+                
                 GoogleSignInButton(scheme: .dark, style: .standard) {
                     Task {
                         do {
@@ -60,8 +61,8 @@ struct LoginView: View {
                             print(error.localizedDescription)
                         }
                     }
-                    }
-                
+                }
+                .padding(.horizontal, 20)
                 
                 
                 Spacer()
@@ -71,6 +72,7 @@ struct LoginView: View {
                 NavigationLink {
                     RegistrationView()
                         .navigationBarBackButtonHidden(true)
+                        .environment(\.loginVm, viewModel)
                 } label: {
                     HStack(spacing: 3) {
                         Text("Don`t have an account?")
@@ -83,7 +85,15 @@ struct LoginView: View {
                 }
                 .padding(.vertical, 16)
             }
+            .sheet(isPresented: $viewModel.isShowFogotPassword) {
+                ForgotPasswordView()
+                    .environment(\.loginVm, viewModel)
+            }
         }
+        .alert(isPresented: $viewModel.isShowAlert, content: {
+            Alert(title: Text("Message"), message: Text(viewModel.message),
+            dismissButton: . destructive (Text ("Ok")))
+        })
     }
 }
 

@@ -51,6 +51,10 @@ class AuthService {
         do {
             let result = try await Auth.auth().signIn(withEmail: email, password: password)
             self.userSession = result.user
+            if result.user.isEmailVerified {
+                        try await uploadUserData(withEmail: email, id: result.user.uid)
+                    }
+
             try await userService.fetchCurrentUser()
         } catch {
             print("Debug: failed to create user \(error.localizedDescription)")
@@ -58,18 +62,23 @@ class AuthService {
     }
     
     @MainActor
-    func createUser(
-        withEmail email: String,
-        password: String,
-        fullName: String,
-        userName: String
-    ) async throws {
+    func createUser(withEmail email: String, password: String) async throws {
         do {
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
-            self.userSession = result.user
-            try await uploadUserData(withEmail: email, fullName: fullName, userName: userName, id: result.user.uid)
+            try await result.user.sendEmailVerification()
         } catch {
             print("Debug: failed to create user \(error.localizedDescription)")
+        }
+    }
+    
+    @MainActor
+    func resetPassword(withEmail email: String) async throws {
+        do {
+            let auth = Auth.auth()
+            
+            try await auth.sendPasswordReset(withEmail: email)
+        } catch {
+            print("Debug: failed to reset \(error.localizedDescription)")
         }
     }
     
@@ -83,11 +92,9 @@ class AuthService {
     @MainActor
     private func uploadUserData(
         withEmail email: String,
-        fullName: String,
-        userName: String,
         id: String
     ) async throws {
-        let user = User(id: id, fullName: fullName, email: email, userName: userName)
+        let user = User(id: id, email: email)
         guard let userData = try? Firestore.Encoder().encode(user) else { return }
         try await Firestore.firestore().collection("users").document(id).setData(userData)
         userService.currentUser = user
@@ -118,9 +125,8 @@ extension AuthService {
         let usersId = try await UserService.getAllUsers().map { $0.id }
         guard let id = userSession?.uid else { return }
         if !usersId.contains(id) {
-            try await uploadUserData(withEmail: tokkens.email, fullName: tokkens.fullName, userName: tokkens.userName, id: id)
+            try await uploadUserData(withEmail: tokkens.email, id: id)
         }
     }
-    
 }
 
