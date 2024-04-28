@@ -41,7 +41,7 @@ struct MainView: View {
                     .ignoresSafeArea()
                 
                 TextField("Type Here", text: $viewModel.textBoxes[viewModel.currentIndex].text)
-                    .font(.system(size: 35))
+                    .font(.system(size: 35, weight: viewModel.textBoxes[viewModel.currentIndex].isBold ? .bold : .regular))
                     .colorScheme(.dark)
                     .foregroundStyle(viewModel.textBoxes[viewModel.currentIndex].textColor)
                     .padding()
@@ -74,8 +74,20 @@ struct MainView: View {
                     })
                 }
                 .overlay (
-                    ColorPicker("", selection: $viewModel.textBoxes[viewModel.currentIndex].textColor)
-                    .labelsHidden()
+                    HStack(spacing: 15) {
+                        
+                        ColorPicker("", selection: $viewModel.textBoxes[viewModel.currentIndex].textColor)
+                            .labelsHidden()
+                        
+                        Button {
+                            viewModel.textBoxes[viewModel.currentIndex].isBold.toggle()
+                        } label: {
+                            Text(viewModel.textBoxes[viewModel.currentIndex].isBold ? "Normal" : "Bold")
+                                .fontWeight(.bold)
+                                .foregroundStyle(.white)
+                        }
+
+                    }
                 )
                 .frame(maxHeight: .infinity, alignment: .top)
             }
@@ -85,6 +97,10 @@ struct MainView: View {
         .sheet(isPresented: $viewModel.isShowingImagePicker) {
             ImagePicker(image: $viewModel.inputImage)
         }
+        .alert(isPresented: $viewModel.showAlert, content: {
+            Alert(title: Text("Message"), message: Text(viewModel.message),
+            dismissButton: . destructive (Text ("Ok")))
+        })
         .confirmationDialog("Select a filter", isPresented: $viewModel.showingFilterSheet) {
             Button("Crystallize") { viewModel.setFilter(CIFilter.crystallize()) }
             Button("Edges") { viewModel.setFilter(CIFilter.edges()) }

@@ -30,23 +30,11 @@ final class MainViewModel {
     var currentIndex = 0
     var rect: CGRect = .zero
     
+    var showAlert = false
+    var message = ""
+    
     @ObservationIgnored
     let context = CIContext()
-    
-    
-    func save() {
-        guard let processedImage = processedImage else { return }
-        let imageSaver = ImageSaver()
-        
-        imageSaver.successHandler = {
-            print("Success!")
-        }
-        
-        imageSaver.errorHandler = {
-            print("Oops! \($0.localizedDescription)")
-        }
-        imageSaver.writeToPhotoAlbum(image: processedImage)
-    }
     
     func loadImage() {
         guard let inputImage = inputImage else { return }
@@ -95,14 +83,36 @@ final class MainViewModel {
     }
     
     func saveImage() {
-        UIGraphicsBeginImageContextWithOptions (rect.size, false, 1)
+        UIGraphicsBeginImageContextWithOptions (rect.size, false, 0)
+        canvas.drawHierarchy (in: CGRect(origin: .zero, size: rect.size), afterScreenUpdates:true)
+        
+        let SwiftUIView = ZStack{
+            ForEach(textBoxes) { [self] box in
+                Text(textBoxes[currentIndex].id == box.id && addNewBox ? "" : box.text)
+                    .font(.system(size: 30))
+                    .fontWeight(box.isBold ? .bold : .none)
+                    .foregroundColor(box.textColor)
+                    .offset(box.lastOffset)
+            }
+        }
+        
+        let controller = UIHostingController (rootView: SwiftUIView).view!
+        controller.frame = rect
+        controller.drawHierarchy(in: CGRect(origin: .zero, size: rect.size), afterScreenUpdates: true)
+        
+        controller.backgroundColor = .clear
+        canvas.backgroundColor = .clear
+        
         let generatedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
         if let image = generatedImage{
             UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
             print ("success..." )
+            message = "Saved Successfully !!!"
+            showAlert.toggle()
         }
+        cancel()
     }
 }
 
